@@ -19,6 +19,7 @@ var gGame = {
 
 function onInit() {
     gBoard = buildBoard()
+    randomBomb()
     console.log('gBoard', gBoard)
     renderBoard(gBoard)
 }
@@ -39,10 +40,26 @@ function buildBoard() {
 
         }
     }
-
-    board[0][0].isMine = true
-    board[0][1].isMine = true
+    // board[0][0].isMine = true
+    // board[0][1].isMine = true
     return board
+}
+function randomBomb() {
+    var bombCount = 0
+
+    while (bombCount < gLevel.MINES) {
+        console.log('hi')
+        var i = getRandomInt(0, gLevel.SIZE - 1)
+        var j = getRandomInt(0, gLevel.SIZE - 1)
+
+        if (!gBoard[i][j].isMine) {
+
+            gBoard[i][j].isMine = true
+            bombCount++
+        }
+    }
+    return bombCount
+
 }
 
 function countBombAround(board, rowIdx, colIdx) {
