@@ -1,19 +1,31 @@
 body {
   background: #111;
+  color: #111;
+}
+
+h1 {
   color: white;
 }
 
 table {
   border-collapse: separate;
-  border-spacing: 8px;
+  display: flex;
+  width: 524px;
+  align-items: flex-start;
+  align-content: flex-start;
+  gap: 4px;
+  flex-wrap: wrap;
 }
 
 .cell {
   width: 40px;
   height: 40px;
-  border-radius: 8px;
-  background-color: rgb(69, 69, 69);
+  border-radius: 2px;
+  background-color: white;
+
+  box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.1) inset;
   cursor: pointer;
+  text-align: center;
 }
 
 .cell:hover {

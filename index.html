@@ -3,11 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css\style.css" />
     <title>Spivak's Minesweeper</title>
   </head>
   <body onload="onInit()">
     <h1>Spivak's Minesweeper</h1>
+    <div class="levels">
+      <button onclick="newSize(this)">Beginner</button>
+      <button onclick="newSize(this)">Medium</button>
+      <button onclick="newSize(this)">Expert</button>
+    </div>
     <table class="board">
       <tbody class="board-cells"></tbody>
     </table>
