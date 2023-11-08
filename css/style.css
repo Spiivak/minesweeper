@@ -1,0 +1,21 @@
+body {
+  background: #111;
+  color: white;
+}
+
+table {
+  border-collapse: separate;
+  border-spacing: 8px;
+}
+
+.cell {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.cell:hover {
+  background-color: aquamarine;
+}
