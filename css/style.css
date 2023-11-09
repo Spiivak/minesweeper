@@ -2,16 +2,72 @@ body {
   background: #111;
   color: #111;
   box-sizing: border-box;
+  /* display: flex;
+  justify-content: center; */
+}
+
+.main {
   display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
+}
+
+.table-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.lives,
+.hints {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 16px;
+}
+.display-bombs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+.hints {
+  cursor: pointer;
 }
 
 .is-1 {
-  color: red;
+  color: blue;
 }
 
 .is-2 {
-  color: blue;
+  color: darkolivegreen;
+}
+
+.is-3 {
+  color: red;
+}
+
+.is-4 {
+  color: navy;
+}
+
+.is-5 {
+  color: brown;
+}
+
+.is-6 {
+  color: turquoise;
+}
+
+.is-7 {
+  color: black;
+}
+
+.is-8 {
+  color: gray;
 }
 
 .is-mine {
@@ -26,6 +82,7 @@ table {
   border-collapse: separate;
   display: flex;
   justify-content: center;
+  align-items: center;
   width: 524px;
 }
 

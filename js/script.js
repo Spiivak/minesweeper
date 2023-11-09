@@ -2,6 +2,8 @@
 
 const BOMB = '☢️'
 const FLAG = '🚩'
+const LIVES = '❤️'
+var gLives = 3
 
 var gFirstCell
 var gBoard = []
@@ -20,8 +22,10 @@ var gGame = {
 function onInit() {
     gBoard = buildBoard()
     gFirstCell = true
-
+    displayBombs()
     console.log('gBoard', gBoard)
+    gLives = 3
+    renderLives()
     gGame = {
         isOn: true,
         shownCount: 0,
@@ -67,15 +71,22 @@ function renderBoard(board) {
         strHTML += `</tr>\n`
     }
 
-    const elCells = document.querySelector('.board-cells')
+    const elCells = document.querySelector('.board')
     elCells.innerHTML = strHTML
 }
+
+
+function displayBombs() {
+    const elDisplay = document.querySelector('.display-bomb').innerText = gLevel.MINES
+
+}
+
 function setCellClass(currCell, i, j) {
     var className = 'cell';
 
     if (currCell.isMine) {
         className += ' is-mine';
-    } else {
+    } else if (currCell.minesAroundCount !== null) {
         className += ` is-${currCell.minesAroundCount}`;
     }
 
@@ -98,6 +109,15 @@ function newSize(elBtn) {
     onInit()
 }
 
+function renderLives() {
+    var elLives = document.querySelector('.lives')
+    var strHTML = ''
+    for (var i = 0; i < gLives; i++) {
+        strHTML += `<div class="life-${i}">${LIVES}</div>`
+    }
+    elLives.innerHTML = strHTML
+
+}
 
 function countBombAround(board, rowIdx, colIdx) {
     var count = 0
@@ -139,6 +159,7 @@ function randomBomb() {
     }
     return bombCount
 }
+
 function onCellMarked(elCell, event, i, j) {
     var currCell = gBoard[i][j]
     event.preventDefault()
@@ -167,12 +188,17 @@ function onCellClicked(elCell, i, j) {
         randomBomb()
         setMinesNegsCount(gBoard)
     }
+
     if (currCell.isMine) {
+        gLives--
+        renderLives()
+        if (gLives <= 0) {
+            checkGameOver()
+        }
+
         elCell.innerText = BOMB
         currCell.isShown = true
         elCell.style.backgroundColor = 'red'
-        console.log('You found a bomb!')
-        checkGameOver()
 
     } else {
         elCell.innerText = currCell.minesAroundCount
@@ -180,20 +206,47 @@ function onCellClicked(elCell, i, j) {
         currCell.isShown = true
         elCell.classList.add(`is-${currCell.minesAroundCount}`)
         checkVictory()
+
     }
+
     console.log(gBoard)
 }
 
 
 function checkGameOver() {
     console.log('You Lost!')
-    gGame.isOn = false
+    for (var i = 0; i < gLevel.SIZE; i++) {
+        for (var j = 0; j < gLevel.SIZE; j++) {
+            var currCell = gBoard[i][j];
+            if (currCell.isMine) {
+                currCell.isShown = true;
+            }
+        }
+    }
+
+    gGame.isOn = false;
 }
 
 function checkVictory() {
-    if (gGame.markedCount === gLevel.MINES && gGame.shownCount === gLevel.SIZE * gLevel.SIZE - gLevel.MINES) {
-        console.log('You Won!')
-        gGame.isOn = false
+    var isVictory = true;
+
+    // Check if all cells without mines are shown
+    for (var i = 0; i < gLevel.SIZE; i++) {
+        for (var j = 0; j < gLevel.SIZE; j++) {
+            var currCell = gBoard[i][j];
+            if (!currCell.isMine && !currCell.isShown) {
+                isVictory = false;
+                break;
+            }
+        }
+        if (!isVictory) {
+            break;
+        }
+    }
+
+    if (isVictory) {
+        console.log('You Won!');
+        gGame.isOn = false;
     }
 }
 
@@ -204,6 +257,7 @@ function expandShown(elCell, i, j) {
     if (elCell.innerText === '0') {
         checkVictory()
         // Helper function to reveal a cell
+
         function revealCell(rowIdx, colIdx) {
             if (rowIdx < 0 || rowIdx >= gLevel.SIZE || colIdx < 0 || colIdx >= gLevel.SIZE) return
 
