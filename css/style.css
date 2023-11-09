@@ -1,6 +1,17 @@
 body {
   background: #111;
   color: #111;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+}
+
+.is-1 {
+  color: red;
+}
+
+.is-2 {
+  color: blue;
 }
 
 h1 {
@@ -10,16 +21,13 @@ h1 {
 table {
   border-collapse: separate;
   display: flex;
+  justify-content: center;
   width: 524px;
-  align-items: flex-start;
-  align-content: flex-start;
-  gap: 4px;
-  flex-wrap: wrap;
 }
 
 .cell {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   border-radius: 2px;
   background-color: white;
 
@@ -34,4 +42,114 @@ table {
 
 .bomb {
   background-color: red;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+
+  width: 426px;
+  height: 50px;
+
+  margin-top: 16px;
+}
+
+.buttons button {
+  width: 80px;
+  height: 50px;
+  background-color: red;
+
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.icon {
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.top-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 426px;
+  height: 50px;
+  margin-bottom: 16px;
+}
+
+.dropbtn {
+  background-color: #d9d9d9;
+  color: #3a3a3a;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: #3e8e41;
+}
+
+.darkmode {
+  width: 56px;
+  height: 50px;
+  border-radius: 8px;
+  cursor: pointer;
+
+  background-color: #d9d9d9;
+}
+
+.display-bombs {
+  width: 128px;
+  height: 50px;
+  border-radius: 8px;
+  cursor: not-allowed;
+
+  background-color: #272727;
+}
+
+.display-seconds {
+  width: 128px;
+  height: 50px;
+  border-radius: 8px;
+  cursor: not-allowed;
+
+  background-color: #272727;
 }
