@@ -197,8 +197,21 @@ table {
   background-color: #d9d9d9;
 }
 
+.emotion {
+  width: 56px;
+  height: 50px;
+  border-radius: 8px;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: #d9d9d9;
+}
+
 .display-bombs {
-  width: 128px;
+  width: 97px;
   height: 50px;
   border-radius: 8px;
   cursor: not-allowed;
@@ -207,7 +220,7 @@ table {
 }
 
 .display-seconds {
-  width: 128px;
+  width: 100px;
   height: 50px;
   border-radius: 8px;
   cursor: not-allowed;

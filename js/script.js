@@ -1,8 +1,16 @@
 'use strict'
 
+// Emojis for the game
 const BOMB = '☢️'
 const FLAG = '🚩'
+
+const HAPPY = '😃'
+const LOSE = '🤯'
+const WIN = '😎'
+
 const LIVES = '❤️'
+
+
 var gLives = 3
 
 var gFirstCell
@@ -19,6 +27,8 @@ var gGame = {
     secsPassed: 0
 }
 
+
+// Loading the game and reseting it
 function onInit() {
     gBoard = buildBoard()
     gFirstCell = true
@@ -36,6 +46,7 @@ function onInit() {
     renderBoard(gBoard)
 }
 
+// Building the Board
 function buildBoard() {
     const board = []
     // console.log(board)
@@ -56,6 +67,8 @@ function buildBoard() {
     return board
 }
 
+
+// Rendering the Board
 function renderBoard(board) {
     var strHTML = ''
 
@@ -75,12 +88,13 @@ function renderBoard(board) {
     elCells.innerHTML = strHTML
 }
 
-
+// Displaying the Bombs amount in the screen
 function displayBombs() {
     const elDisplay = document.querySelector('.display-bomb').innerText = gLevel.MINES
 
 }
 
+// Setting the class for the cell
 function setCellClass(currCell, i, j) {
     var className = 'cell';
 
@@ -93,6 +107,7 @@ function setCellClass(currCell, i, j) {
     return className;
 }
 
+// Expanding the shown cells
 function newSize(elBtn) {
     if (elBtn.innerText === 'Beginner') {
         gLevel.SIZE = 4
@@ -109,6 +124,7 @@ function newSize(elBtn) {
     onInit()
 }
 
+// Rendering the Lives
 function renderLives() {
     var elLives = document.querySelector('.lives')
     var strHTML = ''
@@ -119,6 +135,7 @@ function renderLives() {
 
 }
 
+// Counts the bombs around the cell
 function countBombAround(board, rowIdx, colIdx) {
     var count = 0
     for (var i = rowIdx - 1; i <= rowIdx + 1; i++) {
@@ -133,6 +150,7 @@ function countBombAround(board, rowIdx, colIdx) {
     return count
 }
 
+// Setting the mines amount around count
 function setMinesNegsCount(board) {
     for (var i = 0; i < board.length; i++) {
         for (var j = 0; j < board[i].length; j++) {
@@ -144,6 +162,7 @@ function setMinesNegsCount(board) {
     }
 }
 
+// Rendering the mines amount around the cell
 function randomBomb() {
     var bombCount = 0
 
@@ -160,6 +179,7 @@ function randomBomb() {
     return bombCount
 }
 
+// Right click to flag cell
 function onCellMarked(elCell, event, i, j) {
     var currCell = gBoard[i][j]
     event.preventDefault()
@@ -176,6 +196,8 @@ function onCellMarked(elCell, event, i, j) {
         gGame.markedCount++
     }
 }
+
+// Actions on cell clicked
 function onCellClicked(elCell, i, j) {
     var currCell = gBoard[i][j]
 
@@ -212,7 +234,24 @@ function onCellClicked(elCell, i, j) {
     console.log(gBoard)
 }
 
+// Handles the emotions of the game for the reset btn
+// TODO: FIX
+function handleEmotions() {
+    if (gGame.isOn) {
+        var elEmotion = document.querySelector('.emotion')
+        elEmotion.innerText = HAPPY
+    } else if (gGame.isOn === false) {
+        if (gLives <= 0) {
+            var elEmotion = document.querySelector('.emotion')
+            elEmotion.innerText = LOSE
+        } else {
+            var elEmotion = document.querySelector('.emotion')
+            elEmotion.innerText = WIN
+        }
+    }
+}
 
+// Checks if the game is over
 function checkGameOver() {
     console.log('You Lost!')
     for (var i = 0; i < gLevel.SIZE; i++) {
@@ -223,10 +262,11 @@ function checkGameOver() {
             }
         }
     }
-
+    handleEmotions()
     gGame.isOn = false;
 }
 
+// checks if the game is won
 function checkVictory() {
     var isVictory = true;
 
@@ -246,18 +286,21 @@ function checkVictory() {
 
     if (isVictory) {
         console.log('You Won!');
+        handleEmotions()
         gGame.isOn = false;
+
     }
 }
 
+// Revealing the cells
 function expandShown(elCell, i, j) {
     if (!gGame.isOn) return
     if (elCell.innerText === FLAG) return
     if (elCell.innerText === BOMB) return
     if (elCell.innerText === '0') {
         checkVictory()
-        // Helper function to reveal a cell
 
+        // Helper function to reveal a cell
         function revealCell(rowIdx, colIdx) {
             if (rowIdx < 0 || rowIdx >= gLevel.SIZE || colIdx < 0 || colIdx >= gLevel.SIZE) return
 
