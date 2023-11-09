@@ -53,26 +53,33 @@ function buildBoard() {
 }
 
 function renderBoard(board) {
-    const elCells = document.querySelector('.board-cells')
     var strHTML = ''
 
     for (var i = 0; i < board.length; i++) {
         strHTML += `<tr class="minesweeper-row">\n`
         for (var j = 0; j < board[i].length; j++) {
-            strHTML += createCellElement(board[i][j], i, j)
+            const currCell = board[i][j]
+            const title = `Cell: ${i + 1}, ${j + 1}`
+            var className = setCellClass(currCell, i, j)
+            strHTML += `\t<td data-i="${i}" data-j="${j}" title="${title}" class="${className}" onclick="onCellClicked(this, ${i}, ${j}), expandShown(this, ${i}, ${j})" oncontextmenu="onCellMarked(this, event, ${i}, ${j}); return false;"></td>\n`
 
         }
         strHTML += `</tr>\n`
     }
 
+    const elCells = document.querySelector('.board-cells')
     elCells.innerHTML = strHTML
 }
+function setCellClass(currCell, i, j) {
+    var className = 'cell';
 
-function createCellElement(currCell, i, j) {
-    const title = `Cell: ${i + 1}, ${j + 1}`
-    var className = `cell ${currCell.isMine ? 'is-mine' : 'is-' + currCell.minesAroundCount}`
+    if (currCell.isMine) {
+        className += ' is-mine';
+    } else {
+        className += ` is-${currCell.minesAroundCount}`;
+    }
 
-    return `<td data-i="${i}" data-j="${j}" title="${title}" class="${className}" onclick="onCellClicked(this, ${i}, ${j}), expandShown(this, ${i}, ${j})" oncontextmenu="onCellMarked(this, event, ${i}, ${j}); return false;"></td>\n`
+    return className;
 }
 
 function newSize(elBtn) {
@@ -163,6 +170,7 @@ function onCellClicked(elCell, i, j) {
     if (currCell.isMine) {
         elCell.innerText = BOMB
         currCell.isShown = true
+        elCell.style.backgroundColor = 'red'
         console.log('You found a bomb!')
         checkGameOver()
 
@@ -170,6 +178,7 @@ function onCellClicked(elCell, i, j) {
         elCell.innerText = currCell.minesAroundCount
         gGame.shownCount++
         currCell.isShown = true
+        elCell.classList.add(`is-${currCell.minesAroundCount}`)
         checkVictory()
     }
     console.log(gBoard)
@@ -200,6 +209,12 @@ function expandShown(elCell, i, j) {
 
             const cell = gBoard[rowIdx][colIdx]
             const ElCell = document.querySelector(`[data-i = "${rowIdx}"][data-j="${colIdx}"]`)
+
+            if (rowIdx === i - 1 || colIdx === j - 1) {
+                const neighborCell = gBoard[rowIdx][colIdx];
+                const neighborElCell = document.querySelector(`[data-i="${rowIdx}"][data-j="${colIdx}"]`);
+                neighborElCell.className = setCellClass(neighborCell, rowIdx, colIdx);
+            }
 
             if (cell.isShown || cell.isMarked) return
 
